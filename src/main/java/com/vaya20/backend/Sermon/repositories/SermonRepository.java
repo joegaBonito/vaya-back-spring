@@ -12,5 +12,5 @@ import com.vaya20.backend.Sermon.domain.SermonPost;
 public interface SermonRepository extends CrudRepository<SermonPost,Long> {
 
 	@Query("SELECT sp FROM SermonPost sp WHERE sp.deleteYN = 'N' ORDER BY sp.id ASC")
-	public List<SermonPost> findAllPostsWhereDeleteYNIsN();
+	public List<SermonPost> findAllSermonPostsWhereDeleteYNIsN();
 }

@@ -22,14 +22,15 @@ public class SermonServiceImpl implements SermonService {
 	}
 
 	@Override
-	public void delete() {
-		// TODO Auto-generated method stub
-
+	public void delete(long id) {
+		SermonPost sermonPost = sermonRepository.findOne(id);
+		sermonPost.setDeleteYN('Y');
+		save(sermonPost);
 	}
 
 	@Override
 	public List<SermonPost> fetchPostsById() {
-		return sermonRepository.findAllPostsWhereDeleteYNIsN();
+		return sermonRepository.findAllSermonPostsWhereDeleteYNIsN();
 	}
 
 	@Override

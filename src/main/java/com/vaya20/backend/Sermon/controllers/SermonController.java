@@ -43,4 +43,10 @@ public class SermonController {
 		resource.setDeleteYN('N');
 		sermonService.save(resource);
 	}
+	
+	@RequestMapping(value="/sermon-delete/{id}",method=RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.OK)
+	public void deletePost(@PathVariable("id") long id) {
+		sermonService.delete(id);
+	}
 }
