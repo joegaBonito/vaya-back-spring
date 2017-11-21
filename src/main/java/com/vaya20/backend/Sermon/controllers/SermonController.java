@@ -49,4 +49,17 @@ public class SermonController {
 	public void deletePost(@PathVariable("id") long id) {
 		sermonService.delete(id);
 	}
+	
+	@RequestMapping(value="/sermon-edit/{id}", method=RequestMethod.PUT)
+	@ResponseStatus(HttpStatus.OK)
+	public void updatePost(@PathVariable("id") long id, @RequestBody SermonPost resource) {
+		SermonPost post = sermonService.findOne(id);
+		post.setTitle(resource.getTitle());
+		post.setAuthor(resource.getAuthor());
+		post.setDate(resource.getDate());
+		post.setMainVerse(resource.getMainVerse());
+		post.setBody(resource.getBody());
+		post.setDeleteYN('N');
+		sermonService.save(post);
+	}
 }
