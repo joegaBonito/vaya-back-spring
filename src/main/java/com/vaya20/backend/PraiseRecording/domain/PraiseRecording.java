@@ -23,7 +23,7 @@ public class PraiseRecording {
 	private String date;
 	
 	@Column(name="file")
-	private Byte[] file;
+	private byte[] file;
 	
 	@Column(name="body")
 	private String body;
@@ -36,7 +36,7 @@ public class PraiseRecording {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PraiseRecording(long id, String author, String title, String date, Byte[] file, String body, char deleteYN) {
+	public PraiseRecording(long id, String author, String title, String date, byte[] file, String body, char deleteYN) {
 		super();
 		this.id = id;
 		this.author = author;
@@ -79,11 +79,11 @@ public class PraiseRecording {
 		this.date = date;
 	}
 
-	public Byte[] getFile() {
+	public byte[] getFile() {
 		return file;
 	}
 
-	public void setFile(Byte[] file) {
+	public void setFile(byte[] file) {
 		this.file = file;
 	}
 
