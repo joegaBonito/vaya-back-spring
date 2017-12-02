@@ -50,11 +50,11 @@ public class PraiseRecordingController {
 	/*
 	 * Displays image to web from the database blob.
 	 */
-	@RequestMapping(value="/praiserecording-file/{id}", method=RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+	@RequestMapping(value="/praiserecording-file/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<?> readFile(@PathVariable("id") long id) {
 		byte[] imageContent =  praiseRecordingService.findOne(id).getFile();
 		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_JPEG);
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(imageContent,headers, HttpStatus.OK);
 	}
 	
