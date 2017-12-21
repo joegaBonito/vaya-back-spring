@@ -40,6 +40,9 @@ public class Member implements UserDetails {
 	@Column(name="password")
 	private String password;
 	
+	@Column(name="delete_yn")
+	private char deleteYN;
+	
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
@@ -47,13 +50,22 @@ public class Member implements UserDetails {
 		super();
 	}
 
-	public Member(Long id, String email, String username,String password, Role role) {
+	public Member(Long id, String email, String username,String password, Role role,char deleteYN) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.username=username;
 		this.password = password;
 		this.role = role;
+		this.deleteYN = deleteYN;
+	}
+
+	public char getDeleteYN() {
+		return deleteYN;
+	}
+
+	public void setDeleteYN(char deleteYN) {
+		this.deleteYN = deleteYN;
 	}
 
 	public Long getId() {

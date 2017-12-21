@@ -21,7 +21,11 @@ public class  JwtAuthenticationRequest implements Serializable {
         this.setPassword(password);
     }
 
-    public String getUsername() {
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getUsername() {
         return this.username;
     }
 

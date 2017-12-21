@@ -26,7 +26,9 @@ public class UserRestController {
     public ResponseEntity<?> signUp(@RequestBody JwtAuthenticationRequest authenticationRequest) {
         Member member = new Member();
         member.setEmail(authenticationRequest.getUsername());
+        member.setUsername(authenticationRequest.getUsername());
         member.setPassword(authenticationRequest.getPassword());
+        member.setDeleteYN('N');
         memberService.save(member);
 		return ResponseEntity.ok(null);
     }

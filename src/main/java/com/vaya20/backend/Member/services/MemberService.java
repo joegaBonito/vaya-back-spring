@@ -9,6 +9,6 @@ import com.vaya20.backend.Member.domain.Member;
 
 public interface MemberService {
 	public List<Member> list();
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
 	public void save(Member member);
 }

@@ -36,9 +36,20 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 	public List<Member> list() {
 		return memberRepository.findAllByOrderByEmail();
 	}
+	
 
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Member member = memberRepository.findByEmail(username);
+	public void save(Member member) {
+		/*
+		 * Changes the password into Hash before saving into DB.
+		 */
+		member.setRole(Role.GUEST);
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
+		memberRepository.save(member);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Member member = memberRepository.findByEmail(email);
 		if(member != null) {
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			if (member.getRole()==Role.ADMIN) 
@@ -49,15 +60,6 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 				authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
 			return new User(member.getEmail(),member.getPassword(),authorities); 
 		} 
-		throw new UsernameNotFoundException("User '" + username + "' not found.");
-	}
-
-	public void save(Member member) {
-		/*
-		 * Changes the password into Hash before saving into DB.
-		 */
-		member.setRole(Role.GUEST);
-		member.setPassword(passwordEncoder.encode(member.getPassword()));
-		memberRepository.save(member);
+		throw new UsernameNotFoundException("Email '" + email + "' not found.");
 	}
 }
