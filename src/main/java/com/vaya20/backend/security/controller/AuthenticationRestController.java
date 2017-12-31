@@ -2,6 +2,7 @@ package com.vaya20.backend.security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vaya20.backend.Member.domain.Member;
 import com.vaya20.backend.security.JwtAuthenticationRequest;
 import com.vaya20.backend.security.JwtTokenUtil;
 import com.vaya20.backend.security.service.JwtAuthenticationResponse;
@@ -72,9 +72,8 @@ public class AuthenticationRestController {
         if(user != null) {
         	return ResponseEntity.ok(new JwtAuthenticationResponse(token));
         } else {
-        	return ResponseEntity.badRequest().body(null);
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-       
        /* if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
             return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));

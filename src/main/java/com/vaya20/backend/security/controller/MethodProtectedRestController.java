@@ -1,7 +1,6 @@
 package com.vaya20.backend.security.controller;
 
 import java.security.Principal;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +27,6 @@ public class MethodProtectedRestController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAdminGreeting(Principal principal) {
     	System.out.println(principal.getName());
-        return new ResponseEntity<String> ("ADMIN",HttpStatus.OK);
+        return new ResponseEntity<Boolean> (true,HttpStatus.OK);
     }
-
 }
