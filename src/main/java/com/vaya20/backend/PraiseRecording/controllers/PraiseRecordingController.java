@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import com.vaya20.backend.PraiseRecording.domain.PraiseRecording;
+import com.vaya20.backend.PraiseRecording.domain.PraiseRecordingFile;
 import com.vaya20.backend.PraiseRecording.services.PraiseRecordingService;
 
 @Controller
@@ -52,7 +52,7 @@ public class PraiseRecordingController {
 	 */
 	@RequestMapping(value="/praiserecording-file/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	public ResponseEntity<?> readFile(@PathVariable("id") long id) {
-		byte[] imageContent =  praiseRecordingService.findOne(id).getFile();
+		byte[] imageContent =  praiseRecordingService.findOne(id).getPraiseRecordingFile().getFile();
 		final HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity<byte[]>(imageContent,headers, HttpStatus.OK);
@@ -67,7 +67,9 @@ public class PraiseRecordingController {
 					@RequestParam(value="body") String body
 					) throws IOException {
 		PraiseRecording praiseRecording = new PraiseRecording();
-		praiseRecording.setFile(file.getBytes());
+		PraiseRecordingFile praiseRecordingFile = new PraiseRecordingFile();
+		praiseRecordingFile.setFile(file.getBytes());
+		praiseRecording.setPraiseRecordingFile(praiseRecordingFile);
 		praiseRecording.setTitle(title);
 		praiseRecording.setAuthor(author);
 		praiseRecording.setDate(date);
@@ -91,7 +93,9 @@ public class PraiseRecordingController {
 			@RequestParam(value="date") String date,
 			@RequestParam(value="body") String body) throws IOException {
 		PraiseRecording praiseRecording = praiseRecordingService.findOne(id);
-		praiseRecording.setFile(file.getBytes());
+		PraiseRecordingFile praiseRecordingFile = praiseRecordingService.findOne(id).getPraiseRecordingFile();
+		praiseRecordingFile.setFile(file.getBytes());
+		praiseRecording.setPraiseRecordingFile(praiseRecordingFile);
 		praiseRecording.setTitle(title);
 		praiseRecording.setAuthor(author);
 		praiseRecording.setDate(date);
