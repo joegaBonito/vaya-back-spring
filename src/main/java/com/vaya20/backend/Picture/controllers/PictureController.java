@@ -48,11 +48,11 @@ public class PictureController {
 	/*
 	 * Displays image to web from the database blob.
 	 */
-	@RequestMapping(value="/picture-file/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@RequestMapping(value="/picture-file/{id}", method=RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
 	public ResponseEntity<?> readFile(@PathVariable("id") long id) {
 		byte[] imageContent =  pictureService.findOne(id).getFile();
 		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		headers.setContentType(MediaType.IMAGE_PNG);
 		return new ResponseEntity<byte[]>(imageContent,headers, HttpStatus.OK);
 	}
 	

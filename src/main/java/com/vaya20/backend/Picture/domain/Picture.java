@@ -30,6 +30,7 @@ public class Picture {
 	
 	@Column(name="delete_yn")
 	private char deleteYN;
+	
 
 	public Picture() {
 		super();
