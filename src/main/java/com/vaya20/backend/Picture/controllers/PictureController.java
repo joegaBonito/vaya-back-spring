@@ -7,31 +7,40 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import com.vaya20.backend.Picture.domain.Picture;
 import com.vaya20.backend.Picture.services.PictureService;
+import com.vaya20.backend.storage.StorageService;
 
 @Controller
-public class PictureController {
+public class PictureController  {
+	
+	@Autowired
+	private final StorageService storageService;
+	
 	@Autowired
 	PictureService pictureService;
 	
-	public PictureController(PictureService pictureService) {
+	public PictureController(PictureService pictureService, StorageService storageService) {
 		this.pictureService = pictureService;
+		this.storageService = storageService;
 	}
 	
 	@RequestMapping(value="/picture-list", method=RequestMethod.GET)
@@ -56,21 +65,33 @@ public class PictureController {
 		return new ResponseEntity<byte[]>(imageContent,headers, HttpStatus.OK);
 	}
 	
+//	@GetMapping("/picture-file/{filename:.+}")
+//	@ResponseBody
+//	public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+//		Resource file = storageService.loadAsResource(filename);
+//		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+//				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+//	}
+	
 	@RequestMapping(value=("/picture-create"), method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void create(@RequestParam(value="file") MultipartFile file,
 					@RequestParam(value="title") String title,
 					@RequestParam(value="author") String author,
 					@RequestParam(value="date") String date,
-					@RequestParam(value="body") String body
+					@RequestParam(value="body") String body,
+					@RequestParam(value="originalFileName") String originalFileName
 					) throws IOException {
+//		This was used for the file system.
+//		storageService.store(file); 
 		Picture picture = new Picture();
-		picture.setFile(file.getBytes());
 		picture.setTitle(title);
 		picture.setAuthor(author);
 		picture.setDate(date);
 		picture.setBody(body);
 		picture.setDeleteYN('N');
+		picture.setFile(file.getBytes());
+		picture.setOriginalFileName(originalFileName);
 		pictureService.save(picture);
 	}
 	
@@ -87,14 +108,18 @@ public class PictureController {
 			@RequestParam(value="title") String title,
 			@RequestParam(value="author") String author,
 			@RequestParam(value="date") String date,
-			@RequestParam(value="body") String body) throws IOException {
+			@RequestParam(value="body") String body,
+			@RequestParam(value="originalFileName") String originalFileName) throws IOException {
+//		This was used for the file system.
+//		storageService.store(file); 
 		Picture picture = pictureService.findOne(id);
-		picture.setFile(file.getBytes());
 		picture.setTitle(title);
 		picture.setAuthor(author);
 		picture.setDate(date);
 		picture.setBody(body);
 		picture.setDeleteYN('N');
+		picture.setFile(file.getBytes());
+		picture.setOriginalFileName(originalFileName);
 		pictureService.save(picture);
 	}
 	
