@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vaya20.backend.Picture.domain.Picture;
+import com.vaya20.backend.Picture.domain.PictureList;
+import com.vaya20.backend.Picture.repositories.PictureListRepository;
 import com.vaya20.backend.Picture.repositories.PictureRepository;
 import com.vaya20.backend.Picture.services.PictureService;
 
@@ -14,6 +16,9 @@ public class PictureServiceImpl implements PictureService {
 	
 	@Autowired
 	PictureRepository pictureRepository;
+	
+	@Autowired
+	PictureListRepository pictureListRepository;
 
 	@Override
 	public void updatePost(long id) {
@@ -29,8 +34,8 @@ public class PictureServiceImpl implements PictureService {
 	}
 
 	@Override
-	public List<Picture> fetchPostsById() {
-		return pictureRepository.findAllPicturesWhereDeleteYNIsN();
+	public List<Picture> fetchPostsByCategoryId(long categoryId) {
+		return pictureRepository.findAllPicturesWhereDeleteYNIsNAndCategoryIdMatches(categoryId);
 	}
 
 	@Override
@@ -43,5 +48,7 @@ public class PictureServiceImpl implements PictureService {
 	public Picture findOne(long id) {
 		return pictureRepository.findOne(id);
 	}
+
+
 
 }

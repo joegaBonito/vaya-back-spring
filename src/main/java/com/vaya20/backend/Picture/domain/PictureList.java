@@ -1,67 +1,55 @@
 package com.vaya20.backend.Picture.domain;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-@Table(name="picture")
-public class Picture {
+@Table(name="picture_list")
+public class PictureList {
 	@GeneratedValue
 	@Id
 	private long id;
 	
-	@Column(name="author")
-	private String author;
-	
 	@Column(name="title")
 	private String title;
-	
-	@Column(name="date")
-	private String date;
+
+	@Column(name="year")
+	private String year;
 	
 	@Column(name="file")
 	private byte[] file;
 	
 	@Column(name="original_file_name")
 	private String originalFileName;
-	
-	@Column(name="body")
-	private String body;
-	
+		
 	@Column(name="delete_yn")
 	private char deleteYN;
 	
-	@JsonIgnore
-	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="picture_list_id")
-	private PictureList pictureList;
-	
-	public Picture() {
+	@OneToMany( cascade={CascadeType.ALL}, mappedBy="pictureList")
+	private List<Picture> picture;
+
+	public PictureList() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Picture(long id, String author, String title, String date, byte[] file, String originalFileName, String body,
-			char deleteYN, PictureList pictureList) {
+	public PictureList(long id, String title, String year, byte[] file, String originalFileName, char deleteYN,
+			List<Picture> picture) {
 		super();
 		this.id = id;
-		this.author = author;
 		this.title = title;
-		this.date = date;
+		this.year = year;
 		this.file = file;
 		this.originalFileName = originalFileName;
-		this.body = body;
 		this.deleteYN = deleteYN;
-		this.pictureList = pictureList;
+		this.picture = picture;
 	}
 
 	public long getId() {
@@ -72,14 +60,6 @@ public class Picture {
 		this.id = id;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
 	public String getTitle() {
 		return title;
 	}
@@ -88,12 +68,12 @@ public class Picture {
 		this.title = title;
 	}
 
-	public String getDate() {
-		return date;
+	public String getYear() {
+		return year;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setYear(String year) {
+		this.year = year;
 	}
 
 	public byte[] getFile() {
@@ -112,14 +92,6 @@ public class Picture {
 		this.originalFileName = originalFileName;
 	}
 
-	public String getBody() {
-		return body;
-	}
-
-	public void setBody(String body) {
-		this.body = body;
-	}
-
 	public char getDeleteYN() {
 		return deleteYN;
 	}
@@ -128,11 +100,13 @@ public class Picture {
 		this.deleteYN = deleteYN;
 	}
 
-	public PictureList getPictureList() {
-		return pictureList;
+	public List<Picture> getPicture() {
+		return picture;
 	}
 
-	public void setPictureList(PictureList pictureList) {
-		this.pictureList = pictureList;
+	public void setPicture(List<Picture> picture) {
+		this.picture = picture;
 	}
+
 }
+
