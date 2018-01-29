@@ -9,6 +9,7 @@ public class Email {
 	@Id
 	@GeneratedValue
 	long id;
+	String title;
 	String username;
 	String email;
 	String phone;
@@ -19,9 +20,10 @@ public class Email {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Email(long id,String username, String email, String phone, String body) {
+	public Email(String title, long id,String username, String email, String phone, String body) {
 		super();
 		this.id = id;
+		this.title = title;
 		this.username = username;
 		this.email = email;
 		this.phone = phone;
@@ -34,6 +36,14 @@ public class Email {
 	
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getUsername() {

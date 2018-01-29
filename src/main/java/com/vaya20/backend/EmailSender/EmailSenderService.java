@@ -21,7 +21,7 @@ public class EmailSenderService {
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo("vayaarumdaunkm@gmail.com");
 		mail.setFrom(email.getEmail());
-		mail.setSubject("VAYA Website Contact Us");
+		mail.setSubject("VAYA Website Contact Us: " + email.getTitle());
 		mail.setText(
 		"Name: " + email.getUsername() + "\n" + 
 		"Email: " + email.getEmail() + "\n" + 
