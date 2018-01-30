@@ -11,14 +11,16 @@ public class  JwtAuthenticationRequest implements Serializable {
 
     private String username;
     private String password;
+    private String name;
 
     public JwtAuthenticationRequest() {
         super();
     }
 
-    public JwtAuthenticationRequest(String username, String password) {
+    public JwtAuthenticationRequest(String username, String name, String password) {
         this.setUsername(username);
         this.setPassword(password);
+        this.setName(name);
     }
 
 	public static long getSerialversionuid() {
@@ -40,4 +42,12 @@ public class  JwtAuthenticationRequest implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public void setName(String name) {
+    	this.name = name;
+    }
+
+	public String getName() {
+		return this.name;
+	}
 }

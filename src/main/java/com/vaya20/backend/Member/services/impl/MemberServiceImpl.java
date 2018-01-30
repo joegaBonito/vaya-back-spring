@@ -34,7 +34,7 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 	public MemberServiceImpl() {}
 
 	public List<Member> list() {
-		return memberRepository.findAllByOrderByEmail();
+		return memberRepository.findEmailByeIdAndDeleteYN();
 	}
 	
 

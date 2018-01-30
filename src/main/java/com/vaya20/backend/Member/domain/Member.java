@@ -43,6 +43,9 @@ public class Member implements UserDetails {
 	@Column(name="delete_yn")
 	private char deleteYN;
 	
+	@Column(name="name")
+	private String name;
+	
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
@@ -50,7 +53,7 @@ public class Member implements UserDetails {
 		super();
 	}
 
-	public Member(Long id, String email, String username,String password, Role role,char deleteYN) {
+	public Member(Long id, String email, String username,String password, Role role,char deleteYN,String name) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -58,6 +61,7 @@ public class Member implements UserDetails {
 		this.password = password;
 		this.role = role;
 		this.deleteYN = deleteYN;
+		this.name =name;
 	}
 
 	public char getDeleteYN() {
@@ -102,6 +106,14 @@ public class Member implements UserDetails {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override

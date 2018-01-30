@@ -1,10 +1,13 @@
 package com.vaya20.backend.Member.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,34 +18,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vaya20.backend.Member.domain.Member;
-import com.vaya20.backend.Member.services.impl.MemberServiceImpl;
+import com.vaya20.backend.Member.services.MemberService;
 
 @Controller
-@RequestMapping("/members")
 public class MemberController {
-private MemberServiceImpl memberServiceImpl;
 	
 	@Autowired
-	public MemberController(MemberServiceImpl memberServiceImpl) {
-		super();
-		this.memberServiceImpl = memberServiceImpl;
+	private MemberService memberService;
+	
+	public MemberController(MemberService memberService) {
+		this.memberService = memberService;
+	}
+
+	@RequestMapping("/members/list")
+	public ResponseEntity<?> list(){
+		List<Member> members = memberService.list();
+		return new ResponseEntity<List<Member>>(members,HttpStatus.OK);
 	}
 	
-	public MemberController() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-
-	@Secured({"ROLE_USER","ROLE_ADMIN"})
-	@RequestMapping("/list")
-	public String list(Model model){
-		model.addAttribute("members", memberServiceImpl.list());
-		return "members/list";
-	}
-	
-	@Secured({"ROLE_USER","ROLE_ADMIN"})
 	@RequestMapping("/view")
 	public String view(Model model){
 		return "members/view";
@@ -59,7 +52,7 @@ private MemberServiceImpl memberServiceImpl;
 		if(theBindingResult.hasErrors()) {
 			return "/auth/createaccount";
 		}
-		memberServiceImpl.save(member);
+		memberService.save(member);
 		return "redirect:/";
 	}
 	
