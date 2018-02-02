@@ -13,10 +13,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.vaya20.backend.Member.domain.Role;
 import com.vaya20.backend.Member.domain.Member;
+import com.vaya20.backend.Member.domain.Role;
 import com.vaya20.backend.Member.repositories.MemberRepository;
 import com.vaya20.backend.Member.services.MemberService;
+import com.vaya20.backend.Sermon.domain.SermonPost;
 
 @Service
 public class MemberServiceImpl implements UserDetailsService, MemberService {
@@ -42,7 +43,9 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 		/*
 		 * Changes the password into Hash before saving into DB.
 		 */
-		member.setRole(Role.GUEST);
+		if(member.getRole()==null) {
+			member.setRole(Role.MEMBER);
+		}
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		memberRepository.save(member);
 	}
@@ -54,6 +57,8 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			if (member.getRole()==Role.ADMIN) 
 				authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+			else if (member.getRole()==Role.MEMBER) 
+				authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 			else if (member.getRole()==Role.USER) 
 				authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 			else 
@@ -61,5 +66,17 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 			return new User(member.getEmail(),member.getPassword(),authorities); 
 		} 
 		throw new UsernameNotFoundException("Email '" + email + "' not found.");
+	}
+
+	@Override
+	public Member findOne(long id) {
+		return memberRepository.findOne(id);
+	}
+
+	@Override
+	public void delete(long id) {
+		Member member = memberRepository.findOne(id);
+		member.setDeleteYN('Y');
+		save(member);
 	}
 }

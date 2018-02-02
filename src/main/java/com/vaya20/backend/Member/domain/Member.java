@@ -1,6 +1,5 @@
 package com.vaya20.backend.Member.domain;
 
-import java.beans.Transient;
 import java.util.Collection;
 
 import javax.persistence.Column;
