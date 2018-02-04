@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import com.vaya20.backend.Member.services.MemberService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -37,7 +38,7 @@ public class JwtTokenUtil implements Serializable {
     
     @Autowired
     private UserDetailsService userDetailsService;
-
+    
     @Value("${jwt.secret}")
     private String secret;
 

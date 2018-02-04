@@ -17,7 +17,6 @@ import com.vaya20.backend.Member.domain.Member;
 import com.vaya20.backend.Member.domain.Role;
 import com.vaya20.backend.Member.repositories.MemberRepository;
 import com.vaya20.backend.Member.services.MemberService;
-import com.vaya20.backend.Sermon.domain.SermonPost;
 
 @Service
 public class MemberServiceImpl implements UserDetailsService, MemberService {
@@ -35,7 +34,7 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 	public MemberServiceImpl() {}
 
 	public List<Member> list() {
-		return memberRepository.findEmailByeIdAndDeleteYN();
+		return memberRepository.findEmailByIdAndDeleteYN();
 	}
 	
 
@@ -44,7 +43,7 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 		 * Changes the password into Hash before saving into DB.
 		 */
 		if(member.getRole()==null) {
-			member.setRole(Role.MEMBER);
+			member.setRole(Role.ROLE_MEMBER);
 		}
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		memberRepository.save(member);
@@ -55,11 +54,11 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 		Member member = memberRepository.findByEmail(email);
 		if(member != null) {
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-			if (member.getRole()==Role.ADMIN) 
+			if (member.getRole()==Role.ROLE_ADMIN) 
 				authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-			else if (member.getRole()==Role.MEMBER) 
+			else if (member.getRole()==Role.ROLE_MEMBER) 
 				authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
-			else if (member.getRole()==Role.USER) 
+			else if (member.getRole()==Role.ROLE_USER) 
 				authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 			else 
 				authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
@@ -78,5 +77,12 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 		Member member = memberRepository.findOne(id);
 		member.setDeleteYN('Y');
 		save(member);
+	}
+
+	@Override
+	public Integer findIdByUsername(String username) {
+		Integer id = memberRepository.findIdByEmail(username);
+		System.out.println(id);
+		return id;
 	}
 }

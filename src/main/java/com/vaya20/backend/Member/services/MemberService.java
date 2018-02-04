@@ -13,4 +13,5 @@ public interface MemberService {
 	public void save(Member member);
 	public Member findOne(long id);
 	public void delete(long id);
+	public Integer findIdByUsername(String username);
 }

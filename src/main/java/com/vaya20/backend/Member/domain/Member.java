@@ -24,7 +24,7 @@ public class Member implements UserDetails {
 	@Id
 	@GeneratedValue
 	@Column(name="id")
-	private Long id;
+	private long id;
 	
 	@NotNull(message="Email is required")
 	@Size(min=1, message="Email is required")
@@ -52,7 +52,7 @@ public class Member implements UserDetails {
 		super();
 	}
 
-	public Member(Long id, String email, String username,String password, Role role,char deleteYN,String name) {
+	public Member(long id, String email, String username,String password, Role role,char deleteYN,String name) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -71,11 +71,11 @@ public class Member implements UserDetails {
 		this.deleteYN = deleteYN;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
