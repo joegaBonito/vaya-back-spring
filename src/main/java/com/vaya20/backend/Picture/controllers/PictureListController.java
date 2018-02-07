@@ -26,6 +26,7 @@ import com.vaya20.backend.Picture.domain.PictureList;
 import com.vaya20.backend.Picture.services.PictureListService;
 
 @Controller
+@RequestMapping("/api")
 public class PictureListController {
 	@Autowired
 	PictureListService pictureListService;

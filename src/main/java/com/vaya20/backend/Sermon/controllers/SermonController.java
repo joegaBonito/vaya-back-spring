@@ -16,6 +16,7 @@ import com.vaya20.backend.Sermon.domain.SermonPost;
 import com.vaya20.backend.Sermon.services.SermonService;
 
 @Controller
+@RequestMapping("/api")
 public class SermonController {
 	
 	@Autowired

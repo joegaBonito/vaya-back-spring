@@ -18,6 +18,7 @@ import com.vaya20.backend.Sermon.domain.SermonPost;
 import com.vaya20.backend.security.JwtAuthenticationRequest;
 
 @RestController
+@RequestMapping("/api")
 public class UserRestController {
 	
     @Autowired

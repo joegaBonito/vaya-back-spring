@@ -27,6 +27,7 @@ import com.vaya20.backend.PraiseRecording.domain.PraiseRecordingFile;
 import com.vaya20.backend.PraiseRecording.services.PraiseRecordingService;
 
 @Controller
+@RequestMapping("/api")
 public class PraiseRecordingController {
 	
 	@Autowired

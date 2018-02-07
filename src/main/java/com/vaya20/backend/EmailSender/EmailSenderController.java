@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
+@RequestMapping("/api")
 public class EmailSenderController {
 	
 	private Logger logger = LoggerFactory.getLogger(EmailSenderController.class);

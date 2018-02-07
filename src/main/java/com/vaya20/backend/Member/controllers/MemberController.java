@@ -27,6 +27,7 @@ import com.vaya20.backend.Member.domain.Role;
 import com.vaya20.backend.Member.services.MemberService;
 
 @Controller
+@RequestMapping("/api")
 public class MemberController {
 	
 	@Autowired

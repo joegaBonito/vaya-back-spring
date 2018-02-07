@@ -18,6 +18,7 @@ import com.vaya20.backend.Picture.domain.Picture;
 import com.vaya20.backend.Sermon.domain.SermonPost;
 
 @Controller
+@RequestMapping("/api")
 public class NewsController {
 	
 	@Autowired

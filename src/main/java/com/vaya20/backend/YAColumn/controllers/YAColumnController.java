@@ -17,6 +17,7 @@ import com.vaya20.backend.YAColumn.domain.YAColumn;
 import com.vaya20.backend.YAColumn.services.YAColumnService;
 
 @Controller
+@RequestMapping("/api")
 public class YAColumnController {
 	@Autowired
 	YAColumnService yaColumnService;

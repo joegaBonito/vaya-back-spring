@@ -29,6 +29,7 @@ import com.vaya20.backend.Picture.services.PictureService;
 import com.vaya20.backend.storage.StorageService;
 
 @Controller
+@RequestMapping("/api")
 public class PictureController  {
 	
 	@Autowired

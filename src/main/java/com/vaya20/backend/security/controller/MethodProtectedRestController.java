@@ -17,6 +17,7 @@ import com.vaya20.backend.Member.services.MemberService;
 
 
 @RestController
+@RequestMapping("/api")
 public class MethodProtectedRestController {
 	
 	@Autowired
