@@ -1,12 +1,18 @@
 package com.vaya20.backend.Picture.controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,8 +28,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
+import com.google.common.io.ByteStreams;
 import com.vaya20.backend.Picture.domain.PictureList;
 import com.vaya20.backend.Picture.services.PictureListService;
+import com.vaya20.backend.Picture.services.impl.PictureListStorageService;
+import com.vaya20.backend.storage.StorageProperties;
+import com.vaya20.backend.storage.StorageService;
 
 @Controller
 @RequestMapping("/api")
@@ -31,8 +41,13 @@ public class PictureListController {
 	@Autowired
 	PictureListService pictureListService;
 	
-	public PictureListController(PictureListService pictureListService) {
+	@Autowired
+	PictureListStorageService pictureListStorageService;
+	
+	public PictureListController(PictureListService pictureListService,
+			                     PictureListStorageService pictureListStorageService) {
 		this.pictureListService = pictureListService;
+		this.pictureListStorageService = pictureListStorageService;
 	}
 	
 
@@ -50,9 +65,12 @@ public class PictureListController {
 	/*
 	 * Displays image to web from the database blob.
 	 */
-	@RequestMapping(value="/pictureList-file/{id}", method=RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
-	public ResponseEntity<?> pictureListReadFile(@PathVariable("id") long id) {
-		byte[] imageContent =  pictureListService.findOne(id).getFile();
+	@RequestMapping(value="/pictureList-file", method=RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+	public ResponseEntity<?> pictureListReadFile(@RequestParam("filename") String filename) throws IOException {
+		//byte[] imageContent =  pictureListService.findOne(id).getFile();
+		Resource resource = pictureListStorageService.loadAsResource(filename);
+		InputStream stream = resource.getInputStream();
+		byte[] imageContent = ByteStreams.toByteArray(stream);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.IMAGE_PNG);
 		return new ResponseEntity<byte[]>(imageContent,headers, HttpStatus.OK);
@@ -65,10 +83,8 @@ public class PictureListController {
 					@RequestParam(value="year") String year,
 					@RequestParam(value="originalFileName") String originalFileName
 					) throws IOException {
-//		This was used for the file system.
-//		storageService.store(file); 
 		PictureList pictureList = new PictureList();
-		pictureList.setFile(file.getBytes());
+		pictureListStorageService.store(file); //<--Add to the file system.
 		pictureList.setTitle(title);
 		pictureList.setYear(year);
 		pictureList.setOriginalFileName(originalFileName);

@@ -33,18 +33,14 @@ import com.vaya20.backend.storage.StorageService;
 public class PictureController  {
 	
 	@Autowired
-	private final StorageService storageService;
-	
-	@Autowired
 	PictureService pictureService;
 	
 	@Autowired
 	PictureListService pictureListService;
 	
-	public PictureController(PictureService pictureService, PictureListService pictureListService,StorageService storageService) {
+	public PictureController(PictureService pictureService, PictureListService pictureListService) {
 		this.pictureService = pictureService;
 		this.pictureListService =pictureListService;
-		this.storageService = storageService;
 	}
 	
 	@RequestMapping(value="/picture-list/{id}", method=RequestMethod.GET)
