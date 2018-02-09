@@ -22,11 +22,11 @@ import com.vaya20.backend.storage.StorageProperties;
 import com.vaya20.backend.storage.StorageService;
 
 @Service
-public class PictureListStorageService implements StorageService {
+public class PictureStorageService implements StorageService {
 	private final Path rootLocation;
     @Autowired
-    public PictureListStorageService(StorageProperties properties) {
-        this.rootLocation = Paths.get("/home/joegabonito/vaya2.0_prd/vaya2.0/src/main/resources/static/img/picture-list");
+    public PictureStorageService(StorageProperties properties) {
+        this.rootLocation = Paths.get("/home/joegabonito/vaya2.0_prd/vaya2.0/src/main/resources/static/img/picture");
     }
 
     @Override

@@ -28,8 +28,8 @@ public class Picture {
 	@Column(name="date")
 	private String date;
 	
-	@Column(name="file")
-	private byte[] file;
+	// @Column(name="file")
+	// private byte[] file;
 	
 	@Column(name="original_file_name")
 	private String originalFileName;
@@ -50,14 +50,14 @@ public class Picture {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Picture(long id, String author, String title, String date, byte[] file, String originalFileName, String body,
+	public Picture(long id, String author, String title, String date, String originalFileName, String body,
 			char deleteYN, PictureList pictureList) {
 		super();
 		this.id = id;
 		this.author = author;
 		this.title = title;
 		this.date = date;
-		this.file = file;
+		//this.file = file;
 		this.originalFileName = originalFileName;
 		this.body = body;
 		this.deleteYN = deleteYN;
@@ -96,13 +96,13 @@ public class Picture {
 		this.date = date;
 	}
 
-	public byte[] getFile() {
-		return file;
-	}
+	// public byte[] getFile() {
+	// 	return file;
+	// }
 
-	public void setFile(byte[] file) {
-		this.file = file;
-	}
+	// public void setFile(byte[] file) {
+	// 	this.file = file;
+	// }
 
 	public String getOriginalFileName() {
 		return originalFileName;

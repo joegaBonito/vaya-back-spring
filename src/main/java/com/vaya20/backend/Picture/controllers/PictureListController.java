@@ -105,13 +105,12 @@ public class PictureListController {
 			@RequestParam(value="title") String title,
 			@RequestParam(value="year") String year,
 			@RequestParam(value="originalFileName") String originalFileName) throws IOException {
-//		This was used for the file system.
-//		storageService.store(file); 
 		PictureList pictureList = pictureListService.findOne(id);
+		pictureListStorageService.store(file); //<--Add to the file system.
 		pictureList.setTitle(title);
 		pictureList.setYear(year);
 		pictureList.setDeleteYN('N');
-		pictureList.setFile(file.getBytes());
+		//pictureList.setFile(file.getBytes());
 		pictureList.setOriginalFileName(originalFileName);
 		pictureListService.save(pictureList);
 	}
