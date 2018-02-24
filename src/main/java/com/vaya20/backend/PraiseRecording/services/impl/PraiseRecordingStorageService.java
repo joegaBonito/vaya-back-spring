@@ -26,7 +26,7 @@ public class PraiseRecordingStorageService implements StorageService {
 	private final Path rootLocation;
     @Autowired
     public PraiseRecordingStorageService(StorageProperties properties) {
-        this.rootLocation = Paths.get("C:\\Users\\joejung5678\\Documents\\programming\\vaya2.0\\src\\main\\resources\\static\\praise-recording"); ///home/joegabonito/vaya2.0_prd/vaya2.0/src/main/resources/static/praise-recording
+        this.rootLocation = Paths.get("C:\\Users\\joejung5678\\Documents\\programming\\vaya2.0\\src\\main\\resources\\static\\praise-recording"); ///home/joegabonito/vaya-back-spring/src/main/resources/static/praise-recording
     }
 
     @Override
