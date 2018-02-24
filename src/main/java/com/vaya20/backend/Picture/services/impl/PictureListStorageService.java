@@ -26,7 +26,7 @@ public class PictureListStorageService implements StorageService {
 	private final Path rootLocation;
     @Autowired
     public PictureListStorageService(StorageProperties properties) {
-        this.rootLocation = Paths.get("/home/joegabonito/vaya2.0_prd/vaya2.0/src/main/resources/static/img/picture-list");
+        this.rootLocation = Paths.get("C:\\Users\\joejung5678\\Documents\\programming\\vaya2.0\\src\\main\\resources\\static\\img\\picture-list"); ///home/joegabonito/vaya2.0_prd/vaya2.0/src/main/resources/static/img/picture-list
     }
 
     @Override

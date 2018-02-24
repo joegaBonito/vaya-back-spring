@@ -1,15 +1,10 @@
 package com.vaya20.backend.PraiseRecording.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="praise_recording")
@@ -27,11 +22,6 @@ public class PraiseRecording {
 	@Column(name="date")
 	private String date;
 	
-	@JsonIgnore
-	@OneToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="praise_recording_file_id")
-	private PraiseRecordingFile praiseRecordingFile;
-	
 	@Column(name="body")
 	private String body;
 	
@@ -43,14 +33,13 @@ public class PraiseRecording {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PraiseRecording(long id, String author, String title, String date, PraiseRecordingFile praiseRecordingFile,
+	public PraiseRecording(long id, String author, String title, String date,
 			String body, char deleteYN) {
 		super();
 		this.id = id;
 		this.author = author;
 		this.title = title;
 		this.date = date;
-		this.praiseRecordingFile = praiseRecordingFile;
 		this.body = body;
 		this.deleteYN = deleteYN;
 	}
@@ -85,14 +74,6 @@ public class PraiseRecording {
 
 	public void setDate(String date) {
 		this.date = date;
-	}
-
-	public PraiseRecordingFile getPraiseRecordingFile() {
-		return praiseRecordingFile;
-	}
-
-	public void setPraiseRecordingFile(PraiseRecordingFile praiseRecordingFile) {
-		this.praiseRecordingFile = praiseRecordingFile;
 	}
 
 	public String getBody() {

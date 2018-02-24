@@ -63,11 +63,10 @@ public class PictureListController {
 		return new ResponseEntity<PictureList>(pictureList, HttpStatus.OK);
 	}
 	/*
-	 * Displays image to web from the database blob.
+	 * Displays image to web from the file system.
 	 */
 	@RequestMapping(value="/pictureList-file", method=RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
 	public ResponseEntity<?> pictureListReadFile(@RequestParam("filename") String filename) throws IOException {
-		//byte[] imageContent =  pictureListService.findOne(id).getFile();
 		Resource resource = pictureListStorageService.loadAsResource(filename);
 		InputStream stream = resource.getInputStream();
 		byte[] imageContent = ByteStreams.toByteArray(stream);

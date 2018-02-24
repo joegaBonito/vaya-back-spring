@@ -1,12 +1,14 @@
 package com.vaya20.backend.PraiseRecording.controllers;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,9 +24,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
+import com.google.common.io.ByteStreams;
 import com.vaya20.backend.PraiseRecording.domain.PraiseRecording;
-import com.vaya20.backend.PraiseRecording.domain.PraiseRecordingFile;
 import com.vaya20.backend.PraiseRecording.services.PraiseRecordingService;
+import com.vaya20.backend.PraiseRecording.services.impl.PraiseRecordingStorageService;
 
 @Controller
 @RequestMapping("/api")
@@ -33,8 +36,12 @@ public class PraiseRecordingController {
 	@Autowired
 	PraiseRecordingService praiseRecordingService;
 	
-	public PraiseRecordingController(PraiseRecordingService praiseRecordingService) {
+	@Autowired
+	PraiseRecordingStorageService praiseRecordingStorageService;
+	
+	public PraiseRecordingController(PraiseRecordingService praiseRecordingService, PraiseRecordingStorageService praiseRecordingStorageService) {
 		this.praiseRecordingService = praiseRecordingService;
+		this.praiseRecordingStorageService = praiseRecordingStorageService;
 	}
 	
 	@RequestMapping(value="/praiserecording-list", method=RequestMethod.GET)
@@ -49,14 +56,16 @@ public class PraiseRecordingController {
 		return new ResponseEntity<PraiseRecording>(praiseRecording, HttpStatus.OK);
 	}
 	/*
-	 * Displays image to web from the database blob.
+	 * Calls the file to web from the file system.
 	 */
-	@RequestMapping(value="/praiserecording-file/{id}", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public ResponseEntity<?> readFile(@PathVariable("id") long id) {
-		byte[] imageContent =  praiseRecordingService.findOne(id).getPraiseRecordingFile().getFile();
+	@RequestMapping(value="/praiserecording-file", method=RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public ResponseEntity<?> readFile(@RequestParam("filename") String filename) throws IOException {
+		Resource resource = praiseRecordingStorageService.loadAsResource(filename);
+		InputStream stream = resource.getInputStream();
+		byte[] content =  ByteStreams.toByteArray(stream);
 		final HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-		return new ResponseEntity<byte[]>(imageContent,headers, HttpStatus.OK);
+		return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value=("/praiserecording-create"), method=RequestMethod.POST)
@@ -68,9 +77,7 @@ public class PraiseRecordingController {
 					@RequestParam(value="body") String body
 					) throws IOException {
 		PraiseRecording praiseRecording = new PraiseRecording();
-		PraiseRecordingFile praiseRecordingFile = new PraiseRecordingFile();
-		praiseRecordingFile.setFile(file.getBytes());
-		praiseRecording.setPraiseRecordingFile(praiseRecordingFile);
+		praiseRecordingStorageService.store(file); //<--Add to the file system.
 		praiseRecording.setTitle(title);
 		praiseRecording.setAuthor(author);
 		praiseRecording.setDate(date);
@@ -94,9 +101,7 @@ public class PraiseRecordingController {
 			@RequestParam(value="date") String date,
 			@RequestParam(value="body") String body) throws IOException {
 		PraiseRecording praiseRecording = praiseRecordingService.findOne(id);
-		PraiseRecordingFile praiseRecordingFile = praiseRecordingService.findOne(id).getPraiseRecordingFile();
-		praiseRecordingFile.setFile(file.getBytes());
-		praiseRecording.setPraiseRecordingFile(praiseRecordingFile);
+		praiseRecordingStorageService.store(file); //<--Add to the file system.
 		praiseRecording.setTitle(title);
 		praiseRecording.setAuthor(author);
 		praiseRecording.setDate(date);
