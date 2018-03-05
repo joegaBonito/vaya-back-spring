@@ -37,11 +37,26 @@ public class MethodProtectedRestController {
     public ResponseEntity<?> getProtected() {
         return ResponseEntity.ok("Greetings from admin protected method!");
     }
-    
+    /**
+     * Checks if the current logged in user has role ROLE_ADMIN 
+     * @param principal
+     * @return OK, if the current logged in user is an admin.
+     */
     @RequestMapping(value="admin",method = RequestMethod.GET)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> getAdmin(Principal principal) {
-    	System.out.println("Admin Testing: " + principal.getName());
+    public ResponseEntity<?> getAdminRole(Principal principal) {
+    	System.out.println("Admin Role Testing: " + principal.getName());
+        return new ResponseEntity<Boolean> (true,HttpStatus.OK);
+    }
+    /**
+     * Checks if the current logged in user has role ROLE_GUEST
+     * @param principal
+     * @return OK, if the current logged in user is a guest.
+     */
+    @RequestMapping(value="guest",method = RequestMethod.GET)
+    @PreAuthorize("hasRole('GUEST')")
+    public ResponseEntity<?> getGuestRole(Principal principal) {
+    	System.out.println("GUEST Role Testing: " + principal.getName());
         return new ResponseEntity<Boolean> (true,HttpStatus.OK);
     }
     

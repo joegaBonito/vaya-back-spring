@@ -43,7 +43,7 @@ public class MemberServiceImpl implements UserDetailsService, MemberService {
 		 * Changes the password into Hash before saving into DB.
 		 */
 		if(member.getRole()==null) {
-			member.setRole(Role.ROLE_MEMBER);
+			member.setRole(Role.ROLE_GUEST);
 		}
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		memberRepository.save(member);
