@@ -28,12 +28,15 @@ public class SermonPost {
 	@Column(name="body")
 	private String body;
 	
+	@Column(name="file_name")
+	private String fileName;
+	
 	@Column(name="delete_yn")
 	private char deleteYN;
 
 	public SermonPost() {}
 	
-	public SermonPost(long id, String author, String title, String date, String mainVerse, String body, char deleteYN) {
+	public SermonPost(long id, String author, String title, String date, String mainVerse, String body, String fileName, char deleteYN) {
 		super();
 		this.id = id;
 		this.author = author;
@@ -41,6 +44,7 @@ public class SermonPost {
 		this.date = date;
 		this.mainVerse = mainVerse;
 		this.body = body;
+		this.fileName =fileName;
 		this.deleteYN = deleteYN;
 	}
 
@@ -90,6 +94,14 @@ public class SermonPost {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public char getDeleteYN() {
