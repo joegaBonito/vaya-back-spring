@@ -74,7 +74,8 @@ public class PraiseRecordingController {
 					@RequestParam(value="title") String title,
 					@RequestParam(value="author") String author,
 					@RequestParam(value="date") String date,
-					@RequestParam(value="body") String body
+					@RequestParam(value="body") String body,
+					@RequestParam(value="fileName") String fileName
 					) throws IOException {
 		PraiseRecording praiseRecording = new PraiseRecording();
 		praiseRecordingStorageService.store(file); //<--Add to the file system.
@@ -82,6 +83,7 @@ public class PraiseRecordingController {
 		praiseRecording.setAuthor(author);
 		praiseRecording.setDate(date);
 		praiseRecording.setBody(body);
+		praiseRecording.setFileName(fileName);
 		praiseRecording.setDeleteYN('N');
 		praiseRecordingService.save(praiseRecording);
 	}
@@ -99,13 +101,15 @@ public class PraiseRecordingController {
 			@RequestParam(value="title") String title,
 			@RequestParam(value="author") String author,
 			@RequestParam(value="date") String date,
-			@RequestParam(value="body") String body) throws IOException {
+			@RequestParam(value="body") String body,
+			@RequestParam(value="fileName") String fileName) throws IOException {
 		PraiseRecording praiseRecording = praiseRecordingService.findOne(id);
 		praiseRecordingStorageService.store(file); //<--Add to the file system.
 		praiseRecording.setTitle(title);
 		praiseRecording.setAuthor(author);
 		praiseRecording.setDate(date);
 		praiseRecording.setBody(body);
+		praiseRecording.setFileName(fileName);
 		praiseRecording.setDeleteYN('N');
 		praiseRecordingService.save(praiseRecording);
 	}

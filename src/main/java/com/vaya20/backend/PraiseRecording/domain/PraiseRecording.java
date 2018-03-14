@@ -25,6 +25,9 @@ public class PraiseRecording {
 	@Column(name="body")
 	private String body;
 	
+	@Column(name="file_name")
+	private String fileName;
+	
 	@Column(name="delete_yn")
 	private char deleteYN;
 
@@ -34,13 +37,14 @@ public class PraiseRecording {
 	}
 
 	public PraiseRecording(long id, String author, String title, String date,
-			String body, char deleteYN) {
+			String body,  String fileName, char deleteYN) {
 		super();
 		this.id = id;
 		this.author = author;
 		this.title = title;
 		this.date = date;
 		this.body = body;
+		this.fileName = fileName;
 		this.deleteYN = deleteYN;
 	}
 
@@ -82,6 +86,14 @@ public class PraiseRecording {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public char getDeleteYN() {
