@@ -21,7 +21,7 @@ import com.vaya20.backend.Member.services.MemberService;
 @Service
 public class MemberServiceImpl implements UserDetailsService, MemberService {
 	
-	
+	@Autowired
 	private MemberRepository memberRepository;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
